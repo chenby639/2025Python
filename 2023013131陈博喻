@@ -1,0 +1,33 @@
+import random
+
+def random_data_generator_decorator(data_type, count, **kwargs):
+    def decorator(func):
+        def wrapper(*args, **kwargs_func):
+            # 生成随机数据的逻辑
+            random_data = []
+            for i in range(count):
+                if data_type == 'int':
+                    start = kwargs['start']
+                    end = kwargs['end']
+                    random_data.append(random.randint(start, end))
+                elif data_type == 'float':
+                    start = kwargs['start']
+                    end = kwargs['end']
+                    random_data.append(random.uniform(start, end))
+            # 将生成的随机数据作为参数传递给被装饰的函数
+            return func(random_data, *args, **kwargs_func)
+        return wrapper
+    return decorator
+
+@random_data_generator_decorator('int', 5, start=1, end=100)
+def calculate_total(random_data):
+    total = 0
+    max=0
+    min=10^6
+    for num in random_data:
+        total += num
+        if num > max:max=num
+        if num < min:min=num
+    aver=total/len(random_data)
+    print(f'max={max}, min={min}, aver={aver}, total={total}')
+calculate_total()
